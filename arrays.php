@@ -88,7 +88,6 @@ print_r($ages); // Çap ediləcək: Array ( [Ali] => 25 [Ayşe] => 28 [Veli] => 
 /*
  * Array elementləri üzərində dövr etmək üçün foreach() dövrü çox istifadə olunur.
  */
-
 $fruits = ["apple", "banana", "cherry"];
 foreach ($fruits as $fruit) {
     echo $fruit . " ";
@@ -97,27 +96,111 @@ foreach ($fruits as $fruit) {
 
 
 // Assosiativ arraylər üçün açar və dəyəri əldə etmək:
-
 $ages = ["Ali" => 25, "Veli" => 30, "Ayşe" => 28];
 foreach ($ages as $name => $age) {
     echo "$name is $age years old. ";
 }
 
 // array_push(): Arrayin sonuna bir və ya bir neçə element əlavə edir
-
 $stack = ["orange", "banana"];
 array_push($stack, "apple", "raspberry");
 print_r($stack); // Çap ediləcək: Array ( [0] => orange [1] => banana [2] => apple [3] => raspberry )
 
+
 // array_pop(): Arrayin sonundakı elementi silir və qaytarır.
-
-
 $stack = ["orange", "banana", "apple"];
 $fruit = array_pop($stack);
 print_r($stack); // Çap ediləcək: Array ( [0] => orange [1] => banana )
 echo $fruit;    // Çap ediləcək: apple
 
+
 // array_shift(): Arrayin başındakı elementi silir və qaytarır.
+$queue = ["orange", "banana", "apple"];
+$fruit = array_shift($queue);
+print_r($queue); // Çap ediləcək: Array ( [0] => banana [1] => apple )
+echo $fruit;    // Çap ediləcək: orange
+
+
+// array_unshift(): Arrayin başına bir və ya bir neçə element əlavə edir.
+$queue = ["banana", "apple"];
+array_unshift($queue, "orange", "lemon");
+print_r($queue); // Çap ediləcək: Array ( [0] => orange [1] => lemon [2] => banana [3] => apple )
+
+
+//in_array() funksiyası array daxilində müəyyən bir dəyərin olub-olmadığını yoxlayır.
+$fruits = ["apple", "banana", "cherry"];
+
+if (in_array("banana", $fruits)) {
+    echo "Banana arraydə mövcuddur.";
+} else {
+    echo "Banana arraydə mövcud deyil.";
+}
+// Çap ediləcək: Banana arraydə mövcuddur.
+
+
+/*
+ * array_count_values() funksiyası, bir arraydəki dəyərlərin sayını hesablamaq üçün istifadə olunur.
+ * Bu funksiya, dəyərləri açar və onların sayını dəyər olaraq qaytaran yeni bir assosiativ array yaradır.
+ */
+
+$fruits = ["apple", "banana", "orange", "apple", "banana", "apple"];
+$counts = array_count_values($fruits);
+print_r($counts);
+
+
+// array_values: Bu funksiya bir array-dəki bütün dəyərləri nömrələrinin indekslədiyi bir array kimi qaytarır, əsas açarları ləğv edərək
+$array = array("göy", "qırmızı", "yaşıl");
+$v = array_values($array);
+print_r($v);
+
+//array_keys: Bu funksiya bir array-dəki bütün açarları nömrələrinin indekslədiyi bir array kimi qaytarır.
+$array = array("rəng" => "göy", "ölçü" => "orta", "şəkil" => "kvadrat");
+$keys = array_keys($array);
+print_r($keys);
+
+/*
+ * extract() funksiyası, bir associative array-dəki elementləri müəyyən edilmiş adlar ilə dəyişənlərə çıxarır.
+ *  Məsələn, bir array-dəki "key" => "dəyər" cütlüklərini dəyişənlər kimi daxil edir.
+ */
+
+//extract numunesi
+$melumatlar = array(
+    "ad" => "Məmməd",
+    "soyad" => "Əliyev",
+    "yas" => 30
+);
+
+// extract() funksiyası ilə array-dəki məlumatlar dəyişənlərə çıxarılır
+extract($melumatlar);
+
+// artıq məlumatlar dəyişənlərdə mövcuddur
+echo $ad; // Məmməd
+echo $soyad; // Əliyev
+echo $yas; // 30
+
+
+//compact numunesi
+
+$ad = "Məmməd";
+$soyad = "Əliyev";
+$yas = 30;
+
+// compact() funksiyası ilə müəyyən edilmiş dəyişənlərin dəyərləri ilə yeni bir array yaradılır
+$melumatlar = compact("ad", "soyad", "yas");
+
+print_r($melumatlar);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
