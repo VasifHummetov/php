@@ -64,7 +64,7 @@ $products = require_once 'products.php';
 
     </style>
 </head>
-<body>
+<body style="position:relative;">
 
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -105,6 +105,15 @@ $products = require_once 'products.php';
     <?php endforeach; ?>
 </div>
 
+<div class="fixed">
+
+    <?php if (isset($_SESSION['message'])): ?>
+        <span style="color: #20af99"><?=$_SESSION['message']?></span>
+
+        <?php unset($_SESSION['message']) ?>
+    <?php endif; ?>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

@@ -14,7 +14,7 @@ if (isset($_GET['id'])) {
         $product = array_values($product);
 
         addBasket($product[0]);
-        $_SESSION['message'] = "Səbətə uöurla əlavə edildi.";
+        $_SESSION['message'] = "Səbətə uğurla əlavə edildi.";
     } else {
         $_SESSION['message'] = "Axtarışa uyğun nəticə tapılmadı.";
     }
