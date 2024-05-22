@@ -3,6 +3,15 @@
 require_once 'helpers.php';
 
 $products = require_once 'products.php';
+
+$languages = require_once 'config/languages.php';
+
+$app = require_once 'config/app.php';
+
+$language = in_array($_GET['lang'], $languages)
+    ? require_once 'lang/'.$_GET['lang'].'.php'
+    : require_once 'lang/'.$app['locale'].'.php';
+
 ?>
 
 <!doctype html>
@@ -76,17 +85,25 @@ $products = require_once 'products.php';
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Ana səhifə</a>
+                        <a class="nav-link active" aria-current="page" href="index.php"><?=$language['home']?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.php">About</a>
+                        <a class="nav-link" href="about.php"> <?=$language['about']?> </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="baskets.php"><b> Səbətdəki məhsul sayı: </b> (<?=count(baskets())?>)</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="index.php?lang=az">az</a>
+                        <a href="index.php?lang=en">en</a>
+                        <a href="index.php?lang=ru">ru</a>
+                    </li>
                 </ul>
+
+
+
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
@@ -100,7 +117,7 @@ $products = require_once 'products.php';
     <?php foreach ($products as $product): ?>
         <div class="product">
             <h1><?=$product['title']?></h1>
-            <p><a href="/basket/add_basket.php?id=<?=$product['id']?>">Add basket</a></p>
+            <p><a href="add_basket.php?id=<?=$product['id']?>">Add basket</a></p>
         </div>
     <?php endforeach; ?>
 </div>

@@ -5,9 +5,9 @@ require_once 'helpers.php';
 if (isset($_GET['id'])) {
     $data = [];
 
-    foreach (baskets() as $products) {
-        if ($products['id'] != $_GET['id']) {
-            $data[] = $products;
+    foreach (baskets() as $product) {
+        if ($product['id'] != $_GET['id']) {
+            $data[] = $product;
         }
     }
 
@@ -16,5 +16,5 @@ if (isset($_GET['id'])) {
     $_SESSION['basket'] = $data;
 }
 
-header('Location: /basket/baskets.php');
+header('Location: baskets.php');
 die;

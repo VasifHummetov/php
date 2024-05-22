@@ -17,6 +17,7 @@ function addBasket(array $product): bool
 
     unset($_SESSION['basket']);
 
+
     $_SESSION['basket'] = $basket;
 
     return true;
@@ -48,4 +49,10 @@ function baskets(): array
     }
 
     return $data;
+}
+
+function dd($data)
+{
+    print_r($data);
+    die;
 }
