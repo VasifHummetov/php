@@ -71,9 +71,33 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
             font-size: 16px;
         }
 
+        .languages {
+            display: flex;
+            gap: 8px;
+            justify-content: space-between;
+            a {
+                text-decoration: none;
+                color: #32c524;
+            }
+        }
+
+        .menus {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .fixed {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            padding: 10px;
+            border: 1px  solid #32c524;
+        }
+
     </style>
 </head>
-<body style="position:relative;">
+<body style="position:relative; height: 100vh">
 
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -83,7 +107,7 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 menus">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php"><?=$language['home']?></a>
                     </li>
@@ -95,7 +119,7 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
                         <a class="nav-link" href="baskets.php"><b> Səbətdəki məhsul sayı: </b> (<?=count(baskets())?>)</a>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item languages">
                         <a href="index.php?lang=az">az</a>
                         <a href="index.php?lang=en">en</a>
                         <a href="index.php?lang=ru">ru</a>
@@ -122,15 +146,15 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
     <?php endforeach; ?>
 </div>
 
+<?php if (isset($_SESSION['message'])): ?>
 <div class="fixed">
+    <span style="color: #20af99"><?=$_SESSION['message']?></span>
 
-    <?php if (isset($_SESSION['message'])): ?>
-        <span style="color: #20af99"><?=$_SESSION['message']?></span>
-
-        <?php unset($_SESSION['message']) ?>
-    <?php endif; ?>
-
+    <?php unset($_SESSION['message']) ?>
 </div>
+<?php endif; ?>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
