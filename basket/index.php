@@ -8,7 +8,7 @@ $languages = require_once 'config/languages.php';
 
 $app = require_once 'config/app.php';
 
-$language = in_array($_GET['lang'], $languages)
+$language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
     ? require_once 'lang/'.$_GET['lang'].'.php'
     : require_once 'lang/'.$app['locale'].'.php';
 
