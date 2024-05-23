@@ -53,6 +53,11 @@ function baskets(): array
 
 function dd($data)
 {
-    print_r($data);
+    var_dump($data);
     die;
+}
+
+function old(string $key)
+{
+    return $_REQUEST[$key] ?? '';
 }
