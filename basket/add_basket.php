@@ -2,7 +2,12 @@
 
 require_once 'helpers.php';
 
-$products = require_once 'products.php';
+$products = require_once 'db/products.php';
+
+if (!check()) {
+    $_SESSION['message'] = "Zəhmət olmasa giriş edin.";
+    redirect('login.php');
+}
 
 if (isset($_GET['id'])) {
 

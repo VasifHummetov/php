@@ -2,7 +2,7 @@
 
 session_start([
     'cookie_lifetime' => 86400,
-    'read_and_close'  => false,
+    'read_and_close' => false,
 ]);
 
 /**
@@ -51,13 +51,71 @@ function baskets(): array
     return $data;
 }
 
-function dd($data)
+/**
+ * @param $data
+ * @return void
+ */
+function dd($data): void
 {
     var_dump($data);
     die;
 }
 
-function old(string $key)
+/**
+ * @param $data
+ * @return void
+ */
+function dump($data): void
+{
+    var_dump($data);
+}
+
+/**
+ * @param string $key
+ * @return mixed
+ */
+function old(string $key): mixed
 {
     return $_REQUEST[$key] ?? '';
+}
+
+/**
+ * Get current user
+ * @return array
+ */
+function auth(): array
+{
+    $users = require 'db/users.php';
+
+    if (isset($_SESSION['id'])) {
+
+        $user = array_filter($users, function ($user) {
+            return $user['id'] == $_SESSION['id'];
+        });
+
+        if (count($user)) {
+            $user = array_values($user);
+            return $user[0];
+        }
+    }
+
+    return [];
+}
+
+/**
+ * @return bool
+ */
+function check(): bool
+{
+    if (isset($_SESSION['id'])) {
+        return true;
+    }
+
+    return false;
+}
+
+function redirect(string $url)
+{
+    header('Location: ' . $url);
+    die;
 }

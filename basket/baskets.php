@@ -2,7 +2,12 @@
 
 require_once 'helpers.php';
 
-$products = require_once 'products.php';
+$products = require_once 'db/products.php';
+
+if (!check()) {
+    $_SESSION['message'] = "Zəhmət olmasa giriş edin.";
+    redirect('login.php');
+}
 ?>
 
 <!doctype html>
@@ -90,8 +95,20 @@ $products = require_once 'products.php';
                     </li>
 
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+
+                <?php if (! check()): ?>
+                    <div class="login">
+                        <a href="login.php">Login</a>
+                    </div>
+                <?php else: ?>
+                    <p style="margin-right: 5px;"><?= auth()['firstname'] . " " . auth()['lastname']; ?></p>
+                    <div>
+                        <a href="logout.php">Logout</a>
+                    </div>
+                <?php endif; ?>
+
+                <form class="d-flex" role="search" action="search.php">
+                    <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>

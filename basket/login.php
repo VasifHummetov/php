@@ -2,6 +2,10 @@
 
 require_once 'helpers.php';
 
+if (check()) {
+    redirect('index.php');
+}
+
 $products = require_once 'db/products.php';
 
 $languages = require_once 'config/languages.php';
@@ -12,15 +16,31 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
     ? require_once 'lang/'.$_GET['lang'].'.php'
     : require_once 'lang/'.$app['locale'].'.php';
 
-if (isset($_GET['search'])) {
-    $products = array_filter($products, function ($product) {
-       $searchQuery = stripos($product['title'], trim($_GET['search']));
 
-       if (is_int($searchQuery)) {
-           return $product;
-       }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $users = require_once 'db/users.php';
+
+    $user = array_filter($users, function ($user) {
+        if ($user['email'] == trim($_POST['email']) && $user['password'] == $_POST['password']) {
+            return $user;
+        }
     });
+
+    if (count($user)) {
+        $user = array_values($user);
+
+        $_SESSION['id'] = $user[0]['id'];
+    } else {
+        $_SESSION['message'] = "Məlumatları düzgün daxil edin.";
+
+        header('Location: login.php');
+        die;
+    }
+
+    header('Location: index.php');
+    die;
 }
+
 
 ?>
 
@@ -41,24 +61,6 @@ if (isset($_GET['search'])) {
             padding: 0;
             box-sizing: border-box;
             text-decoration: none;
-        }
-
-        .products {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 5px;
-        }
-
-        .product {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 250px;
-            height: 250px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
         }
 
         header {
@@ -99,14 +101,24 @@ if (isset($_GET['search'])) {
 
         .fixed {
             position: fixed;
-            bottom: 0;
-            right: 0;
+            bottom: 20px;
+            right: 20px;
             padding: 10px;
             border: 1px  solid #32c524;
         }
 
+        .login {
+            margin-right: 5px;
+            a {
+                text-decoration: none;
+                font-size: 18px;
+                font-weight: 600;
+            }
+        }
+
     </style>
 </head>
+
 <body style="position:relative; height: 100vh">
 
 <header>
@@ -136,14 +148,19 @@ if (isset($_GET['search'])) {
                     </li>
                 </ul>
 
+                <?php if (! check()): ?>
+                    <div class="login">
+                        <a href="login.php">Login</a>
+                    </div>
+                <?php else: ?>
+                    <p style="margin-right: 5px;"><?= auth()['firstname'] . " " . auth()['lastname']; ?></p>
+                    <div>
+                        <a href="logout.php">Logout</a>
+                    </div>
+                <?php endif; ?>
+
                 <form class="d-flex" role="search" action="search.php">
-                    <input class="form-control me-2"
-                           type="search"
-                           placeholder="Search"
-                           name="search"
-                           value="<?=old('search')?>"
-                           aria-label="Search"
-                    >
+                    <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -151,17 +168,21 @@ if (isset($_GET['search'])) {
     </nav>
 </header>
 
-<div class="products">
-    <?php if (count($products)): ?>
-        <?php foreach ($products as $product): ?>
-            <div class="product">
-                <h1><?=$product['title']?></h1>
-                <p><a href="add_basket.php?id=<?=$product['id']?>">Add basket</a></p>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <h2>Axtarışa uyğun nəticə tapılmadı...</h2>
-    <?php endif; ?>
+<div class="container">
+
+    <form action="login.php" method="POST">
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" id="exampleFormControlInput1" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Password</label>
+            <input class="form-control" name="password" placeholder="************"  id="exampleFormControlTextarea1" >
+        </div>
+        <input type="submit" class="btn btn-primary" value="Daxil ol">
+
+    </form>
+    
 </div>
 
 <?php if (isset($_SESSION['message'])): ?>
@@ -172,10 +193,7 @@ if (isset($_GET['search'])) {
     </div>
 <?php endif; ?>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
 </html>
-
