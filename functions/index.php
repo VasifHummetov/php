@@ -3,12 +3,12 @@
 
 // PHP-də funksiya yaratmaq üçün function açar sözündən istifadə edilir.
 
-function test()
+function withOutParameter()
 {
     return "Hello";
 }
 
-echo test(); // nəticə Hello
+echo withOutParameter(); // nəticə Hello
 
 // Funksiyalar muxtelif sayda parametr qebul edir...
 
@@ -30,9 +30,8 @@ echo withDefaultParameter('Davud'); //  $lastname gondermeyende Davud Eliyev
 echo withDefaultParameter('Tural', 'Ehmedov'); // $lastname gonderende  Tural Ehmedov
 
 
-// callback functions
-
 /*
+ * callback functions
  *
  * Bu numunede functiona ad vermeyeceyik
  *
