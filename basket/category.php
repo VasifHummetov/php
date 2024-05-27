@@ -14,6 +14,12 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
     ? require_once 'lang/'.$_GET['lang'].'.php'
     : require_once 'lang/'.$app['locale'].'.php';
 
+if (isset($_GET['id'])) {
+    $products = array_filter($products, function ($product) {
+       return $product['category_id'] == $_GET['id'];
+    });
+}
+
 ?>
 
 <!doctype html>
@@ -174,11 +180,11 @@ $language = isset($_GET['lang']) && in_array($_GET['lang'], $languages)
 </div>
 
 <?php if (isset($_SESSION['message'])): ?>
-<div class="fixed">
-    <span style="color: #20af99"><?=$_SESSION['message']?></span>
+    <div class="fixed">
+        <span style="color: #20af99"><?=$_SESSION['message']?></span>
 
-    <?php unset($_SESSION['message']) ?>
-</div>
+        <?php unset($_SESSION['message']) ?>
+    </div>
 <?php endif; ?>
 
 
