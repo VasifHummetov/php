@@ -1,6 +1,6 @@
 <?php
 
-$connection = mysqli_connect('localhost', 'vasif','1234');
+$connection = mysqli_connect('localhost', 'root','');
 
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
@@ -21,7 +21,14 @@ require_once 'helpers.php';
 
 // SELECTING DATABASE
 
-mysqli_select_db($connection, 'lesson');
+mysqli_select_db($connection, 'itstart');
+
+
+$charset = mysqli_character_set_name($connection);
+echo "Default character set is: " . $charset;
+
+// Change character set to utf8
+mysqli_set_charset($connection,"utf8");
 
 /*
  * CREATING TABLE
@@ -69,7 +76,7 @@ mysqli_select_db($connection, 'lesson');
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $query = insert('users', $_POST);
+    $query = create('users', $_POST);
 
     if ($query) {
         echo "Resource created successfully";

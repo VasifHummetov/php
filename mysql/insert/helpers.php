@@ -1,12 +1,11 @@
 <?php
 
-
 /**
  * @param string $table
  * @param array $data
  * @return bool
  */
-function insert(string $table, array $data): bool
+function create(string $table, array $data): bool
 {
     global $connection;
 
