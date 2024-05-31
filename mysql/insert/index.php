@@ -21,14 +21,14 @@ require_once 'helpers.php';
 
 // SELECTING DATABASE
 
-mysqli_select_db($connection, 'itstart');
+mysqli_select_db($connection, 'meetset');
 
 
 $charset = mysqli_character_set_name($connection);
-echo "Default character set is: " . $charset;
+//echo "Default character set is: " . $charset;
 
 // Change character set to utf8
-mysqli_set_charset($connection,"utf8");
+//mysqli_set_charset($connection,"utf8");
 
 /*
  * CREATING TABLE
@@ -56,9 +56,6 @@ mysqli_set_charset($connection,"utf8");
  * INSERT RESOURCE
  */
 
-
-
-
 //$sql = "
 //    INSERT INTO users (`email`, `firstname`,`lastname`)
 //    VALUES ('admin@example.com', 'Vasif', 'Hummetov'),
@@ -76,7 +73,11 @@ mysqli_set_charset($connection,"utf8");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $query = create('users', $_POST);
+    unset($_POST['password_confirmation']);
+
+    $data = array_merge($_POST, ['password' => password_hash($_POST['password'],PASSWORD_BCRYPT)]);
+
+    $query = create('users', $data);
 
     if ($query) {
         echo "Resource created successfully";
@@ -102,18 +103,15 @@ mysqli_close($connection);
     <title>Document</title>
 </head>
 <body>
-
+<h1>Register</h1>
 <form action="" method="POST">
-
     <input type="text" name="firstname" placeholder="Firstname">
     <input type="text" name="lastname" placeholder="lastname">
     <input type="text" name="email" placeholder="Email">
-    <input type="text" name="a" placeholder="a">
-    <textarea name="description" id="" cols="30" rows="10"></textarea>
+    <input type="password" name="password" placeholder="Password">
+    <input type="password" name="password_confirmation" placeholder="Password confirmation">
     <input type="submit">
-
 </form>
-
 
 </body>
 </html>
