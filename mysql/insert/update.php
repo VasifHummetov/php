@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $data = array_merge($data, ['password' => password_hash($_POST['password'], PASSWORD_BCRYPT)]);
     }
 
+
+
 //    SELECT * FROM Countries
 //        WHERE city IN (SELECT id FROM Countries WHERE dintance > 5km);
 
@@ -38,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     );
 
     if ($query) {
-        echo "Məlumat uğurla yeniləndi";
         header('Location: update.php');
+        die;
     } else {
         echo "ERRORRR";
     }

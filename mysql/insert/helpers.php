@@ -62,7 +62,16 @@ function update(string $table, array $data, array $condition = []): bool
         $columns .= "$column='$value',";
     }
 
-    $columns = trim($columns, ',');
+//    foreach ($data as $column => $value) {
+//        $colums[] = "`$column`=$value";
+//    }
+//
+//    $data = implode(',', $colums);
+//
+//    var_dump($data);
+//    die;
+
+   $columns = trim($columns, ',');
 
     if (count($condition) > 0) {
 
