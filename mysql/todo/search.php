@@ -1,11 +1,41 @@
 <?php
+
 require_once 'includes/header.php';
 
-$products = get(table: 'products', columns: ['id', 'title', 'price', 'image', 'description', 'created_at']);
+
+$sql = "SELECT * FROM products";
+
+$search = $_GET["search"];
+
+$start_date = $_GET['start_date'];
+$end_date = $_GET['end_date'];
+
+if (empty($start_date) || empty($end_date) && strlen($search) > 0) {
+    $sql .= " WHERE 
+             `title` LIKE '%$search%' 
+            OR 
+             `description` LIKE '%$search%'";
+} elseif (!empty($start_date) && !empty($end_date) && strlen($search) == 0) {
+    $sql .= " WHERE `created_at` BETWEEN '$start_date' AND '$end_date'";
+} elseif (!empty($start_date) && !empty($end_date) && strlen($search) > 0) {
+    $sql .= " WHERE 
+                `title` LIKE '%$search%' 
+                OR 
+                `description` LIKE '%$search%'
+                AND 
+                `created_at` BETWEEN '$start_date' AND '$end_date'";
+}
+
+$result = mysqli_query($connection, $sql);
+
+$products = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $products[] = $row;
+}
+
 
 ?>
-
-<a href="create.php">Create Product</a>
 
 <form action="search.php" method="GET">
 
@@ -43,7 +73,7 @@ $products = get(table: 'products', columns: ['id', 'title', 'price', 'image', 'd
             <td><?= $product['title'] ?></td>
             <td><?= $product['description'] ?></td>
             <td><?= $product['price'] ?></td>
-            <td> <?=date('Y-m-d', strtotime($product['created_at']))?></td>
+            <td><?= $product['created_at'] ?></td>
             <td>
                 <a href="update.php?id=<?= $product['id'] ?>">Update</a>
                 <a href="delete.php?id=<?=$product['id']?>">DELETE</a>
@@ -52,6 +82,7 @@ $products = get(table: 'products', columns: ['id', 'title', 'price', 'image', 'd
     <?php endforeach; ?>
     </tbody>
 </table>
+
 
 
 <?php

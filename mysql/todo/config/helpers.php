@@ -100,8 +100,6 @@ function get(string $table, array $conditions = [], array $columns = ['*']): arr
 }
 
 
-
-
 /**
  * @param string $table
  * @param array $resource
@@ -140,6 +138,26 @@ function update(string $table, array $data, array $condition = [], string $opera
         $sql = "UPDATE $table SET $columns WHERE $where";
     } else {
         $sql = "UPDATE $table SET $columns";
+    }
+
+    return mysqli_query($connection, $sql);
+}
+
+/**
+ * @param string $table
+ * @param string $column
+ * @param array $data
+ * @return mixed
+ */
+function delete(string $table, string $column = "", array $data = []): mixed
+{
+    global $connection;
+
+    if ($column && count($data) > 0) {
+        $data = implode(',', $data);
+        $sql = "DELETE FROM `$table` WHERE `$column` IN ($data)";
+    } else {
+        $sql = "DELETE FROM $table";
     }
 
     return mysqli_query($connection, $sql);

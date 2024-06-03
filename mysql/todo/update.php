@@ -5,6 +5,7 @@ $product = first('products', ['id' => $_GET['id']]);
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
     $update = update(table: 'products', data: $_POST, condition: ['id' => $_GET['id']]);
 
     if ($update) {
@@ -21,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <input type="text" name="title" value="<?=$product['title']?>">
     <input type="text" name="price" value="<?=$product['price']?>">
     <textarea name="description"><?=$product['description']?></textarea>
+    <input type="date" name="created_at" value="<?=date('Y-m-d', strtotime($product['created_at']))?>">
     <input type="submit">
 </form>
 
