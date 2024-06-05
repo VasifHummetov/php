@@ -1,6 +1,6 @@
 <?php
 
-$connection = mysqli_connect('localhost', 'root', '', 'meetset');
+$connection = mysqli_connect('localhost', 'root', '', 'lesson');
 
 if (!$connection) {
     die('Connection error'. mysqli_connect_error());
