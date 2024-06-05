@@ -1,6 +1,5 @@
 <?php
 
-require_once '../alwaysJson.php';
 require_once '../database.php';
 
 $users = require_once 'users.php';
@@ -13,9 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $error = [];
 
-    if (!isset($_REQUEST['name']) || empty(trim($_REQUEST['name']))) {
-        $error['name'][] = "Name field is required";
+    if (!isset($_REQUEST['firstname']) || empty(trim($_REQUEST['firstname']))) {
+        $error['firstname'][] = "firstname field is required";
     }
+
+    if (!isset($_REQUEST['lastname']) || empty(trim($_REQUEST['lastname']))) {
+        $error['lastname'][] = "lastname field is required";
+    }
+
 
     if (!isset($_REQUEST['email']) || empty(trim($_REQUEST['email']))) {
         $error['email'][] = "Email field is required";
@@ -29,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $error['password'][] = "Password field is required";
     }
 
-    if (!isset($_REQUEST['name']) || mb_strlen($_REQUEST['name'], 'UTF-8') < 6) {
-        $error['name'][] = "Name field minimum length must be 6 symbol";
+    if (!isset($_REQUEST['firstname']) || mb_strlen($_REQUEST['firstname'], 'UTF-8') < 3) {
+        $error['firstname'][] = "firstname field minimum length must be 3 symbol";
     }
 
     if (count($error)) {
@@ -39,12 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         return;
     }
 
-    $name = mysqli_real_escape_string($connection, $_REQUEST['name']);
+    $firstname = mysqli_real_escape_string($connection, $_REQUEST['firstname']);
     $password = mysqli_real_escape_string($connection, password_hash($_REQUEST['password'], PASSWORD_BCRYPT));
     $email = mysqli_real_escape_string($connection, $_REQUEST['email']);
+    $lastname = mysqli_real_escape_string($connection, $_REQUEST['lastname']);
 
 
-    $sql = "INSERT INTO `users` (`name`, `email`, `password`) VALUES ('$name', '$email', '$password')";
+    $sql = "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) 
+            VALUES ('$firstname', '$lastname', '$email', '$password')";
 
     if (mysqli_query($connection, $sql)) {
         $last_id = mysqli_insert_id($connection);

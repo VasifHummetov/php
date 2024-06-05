@@ -1,6 +1,5 @@
 <?php
 
-
 return [
-    'columns' => ['id', 'name', 'email']
+    'columns' => ['id', 'firstname', 'lastname', 'email']
 ];

@@ -1,6 +1,5 @@
 <?php
 
-require_once '../alwaysJson.php';
 require_once '../database.php';
 
 $users = require_once 'users.php';
@@ -14,13 +13,15 @@ if (isset($_GET['id'])) {
         $data = file_get_contents('php://input');
 
         parse_str($data, $input);
+
         $id = $_GET['id'];
 
-        $name = $input['name'];
+        $firstname = $input['firstname'];
+        $lastname = $input['lastname'];
+        $password = password_hash($input['password'], PASSWORD_BCRYPT);
         $email = $input['email'];
-        $password = $input['password'];
 
-        $sql = "UPDATE `users` SET name='$name', `email` = '$email', `password` = '$password' WHERE id=$id";
+        $sql = "UPDATE `users` SET `firstname`='$firstname',`email`='$email',`password`='$password',`lastname`='$lastname' WHERE id=$id";
 
         if (mysqli_query($connection, $sql)) {
 

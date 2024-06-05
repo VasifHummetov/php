@@ -1,6 +1,5 @@
 <?php
 
-require_once '../alwaysJson.php';
 require_once '../database.php';
 
 $users = require_once 'users.php';
