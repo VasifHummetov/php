@@ -10,7 +10,8 @@ class Router
      * @param array|callable $controller
      * @return void
      */
-    public static function get(string $uri, array|callable $controller): void {
+    public static function get(string $uri, array|callable $controller): void
+    {
         self::$routes['GET'][$uri] = $controller;
     }
 
@@ -19,7 +20,8 @@ class Router
      * @param array|callable $controller
      * @return void
      */
-    public static function post(string $uri, array|callable $controller): void {
+    public static function post(string $uri, array|callable $controller): void
+    {
         self::$routes['POST'][$uri] = $controller;
     }
 
@@ -40,7 +42,7 @@ class Router
                     if (method_exists(new $class, $method)) {
                         echo call_user_func_array([new $class, $method], $matches);
                     } else {
-                        throw new Exception('Method '. $method. ' not found');
+                        throw new Exception('Method ' . $method . ' not found');
                     }
                 }
                 return;
