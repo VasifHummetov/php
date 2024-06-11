@@ -13,7 +13,7 @@ function cache(string $key, int|float $ttl, callable $callback)
         $data = unserialize(file_get_contents($file));
 
         if ($data['ttl'] > time()) {
-            return $callback();
+            return $data['data'];
         } else {
             unlink($file);
         }
