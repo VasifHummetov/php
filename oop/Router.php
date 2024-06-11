@@ -42,10 +42,13 @@ class Router
                     $parameters = $reflectionFunction->getParameters();
 
                     foreach ($parameters as $parameter) {
-                        $request = new ($parameter->getType()->getName());
 
-                        if ($request instanceof Request) {
-                            array_unshift($matches, Request::capture());
+                        if ($parameter->getType()) {
+                            $request = new ($parameter->getType()->getName());
+
+                            if ($request instanceof Request) {
+                                array_unshift($matches, Request::capture());
+                            }
                         }
                     }
 

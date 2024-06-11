@@ -11,7 +11,7 @@ Router::get('/product/{id}/{slug}', [\Http\Controllers\HomeController::class, 'p
 Router::get('/services', [\Http\Controllers\HomeController::class, 'services']);
 Router::get('/test/{name}', function ($name) {
     return [
-
+        $name
     ];
 });
 
