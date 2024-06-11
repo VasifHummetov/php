@@ -13,7 +13,7 @@ function cache(string $key, int|float $ttl, callable $callback)
         $data = unserialize(file_get_contents($file));
 
         if ($data['ttl'] > time()) {
-            return $data['data'];
+            return $callback();
         } else {
             unlink($file);
         }
@@ -30,7 +30,7 @@ function cache(string $key, int|float $ttl, callable $callback)
         file_put_contents($file, $data);
     }
 
-    return unserialize($data)['data'];
+    return $callback();
 }
 
 /**
