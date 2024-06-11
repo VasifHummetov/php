@@ -1,7 +1,6 @@
 <?php
 
 
-
 class Router
 {
     protected static array $routes = [];
