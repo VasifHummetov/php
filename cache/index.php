@@ -6,7 +6,8 @@ require_once 'helpers.php';
 // burda deyerleri deyisib yoxlaya bilersiz
 
 $products = cache('products', 10, function () {
-    return ['h'];
+//    return file_get_contents('https://big.az');
+    return []; // mixed  value
 });
 
-var_dump($products);
+echo $products;
