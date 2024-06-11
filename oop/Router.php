@@ -37,7 +37,24 @@ class Router
             if (preg_match('#^' . $pattern . '$#', $requestUri, $matches)) {
                 array_shift($matches); // Remove the full match
                 if (is_callable($controller)) {
-                    echo call_user_func_array($controller, $matches);
+                    $reflectionFunction = new ReflectionFunction($controller);
+
+                    $parameters = $reflectionFunction->getParameters();
+
+                    foreach ($parameters as $parameter) {
+                        $request = new ($parameter->getType()->getName());
+
+                        if ($request instanceof Request) {
+                            array_unshift($matches, Request::capture());
+                        }
+                    }
+
+                    if (is_array($reflectionFunction->invokeArgs($matches))) {
+                        header('Content-type: application/json');
+                        echo json_encode($reflectionFunction->invokeArgs($matches));
+                    } else {
+                        echo $reflectionFunction->invokeArgs($matches);
+                    }
                 } else {
                     [$class, $method] = $controller;
 
@@ -49,9 +66,9 @@ class Router
                         $parameters = $reflectionMethod->getParameters();
 
                         foreach ($parameters as $parameter) {
-                            $call = new ($parameter->getType()->getName());
+                            $request = new ($parameter->getType()->getName());
 
-                            if ($call instanceof Request) {
+                            if ($request instanceof Request) {
                                 array_unshift($matches, Request::capture());
                             }
                         }
