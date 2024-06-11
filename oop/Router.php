@@ -1,6 +1,8 @@
 <?php
 
 
+use vendor\Request;
+
 class Router
 {
     protected static array $routes = [];
@@ -39,10 +41,29 @@ class Router
                 } else {
                     [$class, $method] = $controller;
 
-                    if (method_exists(new $class, $method)) {
-                        echo call_user_func_array([new $class, $method], $matches);
+                    $reflectionClass = new ReflectionClass($class);
+
+                    if ($reflectionClass->hasMethod($method)) {
+                        $reflectionMethod = $reflectionClass->getMethod($method);
+
+                        $parameters = $reflectionMethod->getParameters();
+
+                        foreach ($parameters as $parameter) {
+                            $call = new ($parameter->getType()->getName());
+
+                            if ($call instanceof Request) {
+                                array_unshift($matches, Request::capture());
+                            }
+                        }
+
+                        if (is_array($reflectionMethod->invokeArgs(new $class, $matches))) {
+                            header('Content-type: application/json');
+                            echo json_encode($reflectionMethod->invokeArgs(new $class, $matches));
+                        } else {
+                            echo $reflectionMethod->invokeArgs(new $class, $matches);
+                        }
                     } else {
-                        throw new Exception('Method ' . $method . ' not found');
+                        throw new Exception($method . " not found");
                     }
                 }
                 return;
