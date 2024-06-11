@@ -1,5 +1,7 @@
 <?php
 
+require_once 'helpers.php';
+
 spl_autoload_register(function ($controller) {
     require_once __DIR__. '/' . str_replace('\\','/', $controller) .'.php';
 });

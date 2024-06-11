@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<?=$name?>
+<p><?= $name ?></p>
 
 
 </body>

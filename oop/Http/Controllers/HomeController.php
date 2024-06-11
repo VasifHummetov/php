@@ -8,7 +8,7 @@ class HomeController
 {
     public function index(Request $request)
     {
-        return $request->all();
+        return view('about', ['name' => 'Vasif']);
     }
 
     public function product(Request $request, int $id, string $slug)
