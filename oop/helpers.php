@@ -1,6 +1,5 @@
 <?php
 
-
 function view(string $blade, array $data = [])
 {
     $file = __DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $blade . '.php';

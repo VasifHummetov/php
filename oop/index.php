@@ -3,7 +3,7 @@
 require_once 'helpers.php';
 
 spl_autoload_register(function ($controller) {
-    require_once __DIR__ . 'index.php/' . str_replace('\\','/', $controller) .'.php';
+    require_once __DIR__ . '/' . str_replace('\\','/', $controller) .'.php';
 });
 
 Router::get('/', [\Http\Controllers\HomeController::class, 'index']);

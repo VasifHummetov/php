@@ -1,6 +1,5 @@
 <?php
 
-
 use vendor\Request;
 
 class Router
