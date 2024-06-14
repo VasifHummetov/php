@@ -101,6 +101,37 @@ class User extends DB {
 //}
 
 
+/*
+ *
+ * ABSTRACT CLASS
+ *
+ */
+abstract class Animal
+{
+    abstract public function makeSound();
+}
+
+class Dog extends Animal
+{
+    public function makeSound()
+    {
+        return "DOG";
+    }
+}
+
+class Cat extends Dog
+{
+    public function makeSound()
+    {
+        return "CAT";
+    }
+}
+
+
+$cat = new Cat();
+
+//echo $cat->makeSound();
+
 
 
 
