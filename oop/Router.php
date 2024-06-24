@@ -35,6 +35,7 @@ class Router
             $pattern = preg_replace('/\{[^\}]+\}/', '([a-zA-Z0-9_\-]+)', $uri);
             if (preg_match('#^' . $pattern . '$#', $requestUri, $matches)) {
                 array_shift($matches); // Remove the full match
+
                 if (is_callable($controller)) {
                     $reflectionFunction = new ReflectionFunction($controller);
 
@@ -68,9 +69,9 @@ class Router
                         $parameters = $reflectionMethod->getParameters();
 
                         foreach ($parameters as $parameter) {
-                            $request = new ($parameter->getType()->getName());
+                            $request = $parameter->getType()->getName();
 
-                            if ($request instanceof Request) {
+                            if ($request === Request::class) {
                                 array_unshift($matches, Request::capture());
                             }
                         }
